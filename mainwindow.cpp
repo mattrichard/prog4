@@ -1,14 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "QFileDialog"
-#include "QMessageBox"
+#include <QFileDialog>
+#include <QMessageBox>
+
+#include "ip_algorithms.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    thread_count = 8;
 
     image = NULL;
 }
@@ -23,7 +27,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionExit_triggered()
 {
-    exit(0);
+    QApplication::quit();
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -35,7 +39,7 @@ void MainWindow::on_actionOpen_triggered()
         if(image != NULL)
             delete image;
 
-        image = new QImage(imageFileName);
+        image = new QImage(imageFileName);//, QImage::Format_RGB32);
 
         if(image->isNull())
             QMessageBox::information(this, tr("prog4"), tr("Unable to load image %1.").arg(imageFileName));
@@ -54,6 +58,19 @@ void MainWindow::on_actionSave_as_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     save_image();
+}
+
+void MainWindow::on_actionGrayscale_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = grayscale(*image, thread_count);
+
+    delete image;
+    image = newImage;
+
+    ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
 }
 
 void MainWindow::save_image(QString fileName)

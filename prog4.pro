@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    ip_algorithms.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ip_algorithms.h
 
 FORMS    += mainwindow.ui
+
+QMAKE_CXXFLAGS += -fopenmp
+LIBS += -fopenmp

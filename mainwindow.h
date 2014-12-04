@@ -18,18 +18,19 @@ public:
 
 private slots:
     void on_actionExit_triggered();
-
     void on_actionOpen_triggered();
-
     void on_actionSave_as_triggered();
-
     void on_actionSave_triggered();
+
+    void on_actionGrayscale_triggered();
 
 private:
     void save_image(QString fileName = QString());
     Ui::MainWindow *ui;
 
-    QImage *image;
+    int thread_count;
+
+    QImage* image;
     QString imageFileName;
 };
 
