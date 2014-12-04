@@ -47,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>722</width>
-         <height>463</height>
+         <height>456</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -159,6 +159,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/images/Undo-icon.png</normaloff>:/images/images/Undo-icon.png</iconset>
+   </property>
    <property name="text">
     <string>undo</string>
    </property>
@@ -170,6 +174,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/images/Redo-icon.png</normaloff>:/images/images/Redo-icon.png</iconset>
+   </property>
    <property name="text">
     <string>redo</string>
    </property>
@@ -179,6 +187,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

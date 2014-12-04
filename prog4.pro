@@ -23,3 +23,6 @@ FORMS    += mainwindow.ui
 
 QMAKE_CXXFLAGS += -fopenmp
 LIBS += -fopenmp
+
+RESOURCES += \
+    images.qrc
