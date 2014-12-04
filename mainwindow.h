@@ -24,10 +24,9 @@ private slots:
     void on_actionSave_triggered();
 
     void on_actionGrayscale_triggered();
-
     void on_actionUndo_triggered();
-
     void on_actionRedo_triggered();
+    void on_actionSmooth_triggered();
 
 private:
     void clear_undo_stack();

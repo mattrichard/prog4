@@ -76,6 +76,16 @@ void MainWindow::on_actionGrayscale_triggered()
     set_image(newImage);
 }
 
+void MainWindow::on_actionSmooth_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage *newImage = smooth(*image, thread_count);
+
+    set_image(newImage);
+}
+
 void MainWindow::on_actionUndo_triggered()
 {
     undo();
@@ -168,4 +178,9 @@ void MainWindow::update_undo_redo_actions()
 {
     ui->actionUndo->setEnabled(!undoStack.isEmpty());
     ui->actionRedo->setEnabled(!redoStack.isEmpty());
+}
+
+void MainWindow::on_actionBrighten_triggered()
+{
+
 }

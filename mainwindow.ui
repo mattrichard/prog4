@@ -47,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>722</width>
-         <height>456</height>
+         <height>462</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -106,6 +106,8 @@
      <string>Edit</string>
     </property>
     <addaction name="actionGrayscale"/>
+    <addaction name="actionSmooth"/>
+    <addaction name="actionBrighten"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -183,6 +185,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Z</string>
+   </property>
+  </action>
+  <action name="actionSmooth">
+   <property name="text">
+    <string>Smooth</string>
+   </property>
+  </action>
+  <action name="actionBrighten">
+   <property name="text">
+    <string>Brighten</string>
    </property>
   </action>
  </widget>

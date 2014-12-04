@@ -5,4 +5,6 @@
 
 QImage* grayscale(const QImage& image, int thread_count);
 
+QImage *smooth(const QImage& image, int thread_count);
+
 #endif // IP_ALGORITHMS_H
