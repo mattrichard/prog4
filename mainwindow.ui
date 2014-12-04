@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>551</width>
-    <height>407</height>
+    <width>742</width>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,8 +46,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>531</width>
-         <height>321</height>
+         <width>722</width>
+         <height>472</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -87,7 +87,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>551</width>
+     <width>742</width>
      <height>27</height>
     </rect>
    </property>
@@ -120,7 +120,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <action name="actionExit">

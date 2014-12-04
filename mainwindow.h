@@ -21,11 +21,16 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionSave_as_triggered();
+
+    void on_actionSave_triggered();
+
 private:
+    void save_image(QString fileName = QString());
     Ui::MainWindow *ui;
 
     QImage *image;
-
+    QString imageFileName;
 };
 
 #endif // MAINWINDOW_H

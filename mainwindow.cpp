@@ -28,19 +28,35 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Image Files (*.png *.jpg *.bmp)"));
+    imageFileName = QFileDialog::getOpenFileName(this, tr("Open Image"), QString(), tr("Image Files (*.png *.jpg *.bmp)"));
 
-    if(!fileName.isEmpty())
+    if(!imageFileName.isEmpty())
     {
-        image = new QImage(fileName);
-        //QSize size = image->size();
+        if(image != NULL)
+            delete image;
+
+        image = new QImage(imageFileName);
 
         if(image->isNull())
-            QMessageBox::information(this, tr("prog4"), tr("Unable to load image %1.").arg(fileName));
+            QMessageBox::information(this, tr("prog4"), tr("Unable to load image %1.").arg(imageFileName));
         else
-        {
             ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
-            //ui->imageLabel->resize(size);
-        }
     }
+}
+
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image"), QString(), tr("Image Files (*.png *.jpg *.bmp)"));
+
+    save_image(fileName);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    save_image();
+}
+
+void MainWindow::save_image(QString fileName)
+{
+    image->save(fileName.isEmpty() ? imageFileName : fileName);
 }
