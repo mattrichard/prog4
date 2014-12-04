@@ -22,6 +22,8 @@ MainWindow::~MainWindow()
     if(image != NULL)
         delete image;
 
+    clear_stacks();
+
     delete ui;
 }
 
@@ -44,7 +46,11 @@ void MainWindow::on_actionOpen_triggered()
         if(image->isNull())
             QMessageBox::information(this, tr("prog4"), tr("Unable to load image %1.").arg(imageFileName));
         else
+        {
+            clear_stacks();
+            update_undo_redo_actions();
             ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
+        }
     }
 }
 
@@ -67,13 +73,99 @@ void MainWindow::on_actionGrayscale_triggered()
 
     QImage* newImage = grayscale(*image, thread_count);
 
-    delete image;
-    image = newImage;
+    set_image(newImage);
+}
 
-    ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
+void MainWindow::on_actionUndo_triggered()
+{
+    undo();
+}
+
+void MainWindow::on_actionRedo_triggered()
+{
+    redo();
+}
+
+void MainWindow::clear_undo_stack()
+{
+    while(!undoStack.isEmpty())
+    {
+        QImage* temp = undoStack.back();
+        undoStack.pop_back();
+        delete temp;
+    }
+}
+
+void MainWindow::clear_redo_stack()
+{
+    while(!redoStack.isEmpty())
+    {
+        QImage* temp = redoStack.back();
+        redoStack.pop_back();
+        delete temp;
+    }
+}
+
+void MainWindow::clear_stacks()
+{
+    clear_undo_stack();
+    clear_redo_stack();
 }
 
 void MainWindow::save_image(QString fileName)
 {
     image->save(fileName.isEmpty() ? imageFileName : fileName);
+}
+
+void MainWindow::set_image(QImage *newImage)
+{
+    if(image != NULL)
+    {
+        undoStack.push_back(image);
+        clear_redo_stack();
+
+        image = newImage;
+
+        ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
+
+        // Undo stack can only save 15 images
+        if(undoStack.size() > 15)
+        {
+            QImage* temp = undoStack.front();
+            undoStack.pop_front();
+            delete temp;
+        }
+
+        update_undo_redo_actions();
+    }
+}
+
+void MainWindow::undo()
+{
+    redoStack.push_back(image);
+
+    image = undoStack.back();
+    undoStack.pop_back();
+
+    ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
+
+    update_undo_redo_actions();
+}
+
+void MainWindow::redo()
+{
+    undoStack.push_back(image);
+
+    image = redoStack.back();
+    redoStack.pop_back();
+
+    ui->imageLabel->setPixmap(QPixmap::fromImage(*image));
+
+    update_undo_redo_actions();
+}
+
+void MainWindow::update_undo_redo_actions()
+{
+    ui->actionUndo->setEnabled(!undoStack.isEmpty());
+    ui->actionRedo->setEnabled(!redoStack.isEmpty());
 }
