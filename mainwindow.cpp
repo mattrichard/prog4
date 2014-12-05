@@ -189,3 +189,13 @@ void MainWindow::on_actionGradient_triggered()
 
     set_image(newImage);
 }
+
+void MainWindow::on_actionLaplacian_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = laplacian(*image, thread_count);
+
+    set_image(newImage);
+}

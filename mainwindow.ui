@@ -47,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>722</width>
-         <height>456</height>
+         <height>462</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -109,6 +109,7 @@
     <addaction name="actionSmooth"/>
     <addaction name="actionBrighten"/>
     <addaction name="actionGradient"/>
+    <addaction name="actionLaplacian"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -201,6 +202,11 @@
   <action name="actionGradient">
    <property name="text">
     <string>Gradient</string>
+   </property>
+  </action>
+  <action name="actionLaplacian">
+   <property name="text">
+    <string>Laplacian</string>
    </property>
   </action>
  </widget>

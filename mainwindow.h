@@ -30,6 +30,8 @@ private slots:
 
     void on_actionGradient_triggered();
 
+    void on_actionLaplacian_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

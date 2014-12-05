@@ -77,10 +77,10 @@ QImage* smooth(const QImage& image, int thread_count)
 
 QImage* gradient(const QImage& image, int thread_count)
 {
-    QImage grayscaleImage = image.convertToFormat(QImage::Format_Mono);
-
     QImage* newImage = new QImage(image.size(), image.format());
     QSize size = newImage->size();
+
+    QImage grayscaleImage = image.convertToFormat(QImage::Format_Mono);
 
     float xmask[3][3] = {{-1/4.0, -2/4.0, -1/4.0}, {0, 0, 0}, {1/4.0, 2/4.0, 1/4.0}};
     float ymask[3][3] = {{-1/4.0, 0, 1/4.0}, {-2/4.0, 0, 2/4.0}, {-1/4.0, 0, 1/4.0}};
@@ -131,5 +131,48 @@ QImage* gradient(const QImage& image, int thread_count)
     }
 
     return newImage;
-    //return new QImage(temp);
+}
+
+QImage* laplacian(const QImage& image, int thread_count)
+{
+    QImage* newImage = new QImage(image.size(), image.format());
+    QSize size = newImage->size();
+
+    QImage grayscaleImage = image.convertToFormat(QImage::Format_Mono);
+
+    float mask[3][3] = {{0, 1, 0}, {1, -4, 1}, {0, 1, 0}};
+    int r;
+
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(size, grayscaleImage, newImage, mask) private(r)
+    for(r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            float value = 0;
+
+            // Convolve
+            for(int i = -1; i <= 1; i++)
+            {
+                for(int j = -1; j <= 1; j++)
+                {
+                    QColor color = QColor(grayscaleImage.pixel((c + j + size.width()) % size.width(), (r + i + size.height()) % size.height()));
+                    value += mask[i+1][j+1] * color.value();
+                }
+            }
+
+            if(value < 0)
+                value = 0;
+            else if(value > 255)
+                value = 255;
+
+            QColor color = QColor(grayscaleImage.pixel(c, r));
+
+            color.setHsv(color.hue(), color.saturation(), (int)value);
+
+            newImage->setPixel(c, r, color.rgb());
+        }
+    }
+
+    return newImage;
 }
