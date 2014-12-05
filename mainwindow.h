@@ -28,6 +28,8 @@ private slots:
     void on_actionRedo_triggered();
     void on_actionSmooth_triggered();
 
+    void on_actionGradient_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

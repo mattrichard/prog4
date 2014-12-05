@@ -47,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>722</width>
-         <height>462</height>
+         <height>456</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -108,6 +108,7 @@
     <addaction name="actionGrayscale"/>
     <addaction name="actionSmooth"/>
     <addaction name="actionBrighten"/>
+    <addaction name="actionGradient"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -195,6 +196,11 @@
   <action name="actionBrighten">
    <property name="text">
     <string>Brighten</string>
+   </property>
+  </action>
+  <action name="actionGradient">
+   <property name="text">
+    <string>Gradient</string>
    </property>
   </action>
  </widget>

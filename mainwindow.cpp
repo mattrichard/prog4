@@ -180,7 +180,12 @@ void MainWindow::update_undo_redo_actions()
     ui->actionRedo->setEnabled(!redoStack.isEmpty());
 }
 
-void MainWindow::on_actionBrighten_triggered()
+void MainWindow::on_actionGradient_triggered()
 {
+    if(image == NULL)
+        return;
 
+    QImage* newImage = gradient(*image, thread_count);
+
+    set_image(newImage);
 }
