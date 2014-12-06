@@ -6,6 +6,7 @@
 
 #include "ip_algorithms.h"
 #include "chris_algorithms.h"
+#include "ian_algorithms.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -217,6 +218,16 @@ void MainWindow::on_actionDarken_triggered()
         return;
 
     QImage* newImage = darken(*image, thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionSharpen_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = sharpen(*image, thread_count);
 
     set_image(newImage);
 }
