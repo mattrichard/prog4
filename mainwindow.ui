@@ -109,8 +109,8 @@
     <addaction name="actionGrayscale"/>
     <addaction name="actionGradient"/>
     <addaction name="actionBrighten"/>
-    <addaction name="actionLaplacian"/>
     <addaction name="actionDarken"/>
+    <addaction name="actionLaplacian"/>
     <addaction name="actionNoise"/>
     <addaction name="actionBinary_Threshold"/>
     <addaction name="actionNegate"/>

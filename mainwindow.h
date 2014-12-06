@@ -34,6 +34,8 @@ private slots:
 
     void on_actionBrighten_triggered();
 
+    void on_actionDarken_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

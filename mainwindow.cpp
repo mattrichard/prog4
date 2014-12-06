@@ -5,6 +5,7 @@
 #include <QMessageBox>
 
 #include "ip_algorithms.h"
+#include "chris_algorithms.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -202,5 +203,20 @@ void MainWindow::on_actionLaplacian_triggered()
 
 void MainWindow::on_actionBrighten_triggered()
 {
+    if(image == NULL)
+        return;
 
+    QImage* newImage = brighten(*image, thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionDarken_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = darken(*image, thread_count);
+
+    set_image(newImage);
 }
