@@ -32,6 +32,8 @@ private slots:
 
     void on_actionLaplacian_triggered();
 
+    void on_actionBrighten_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

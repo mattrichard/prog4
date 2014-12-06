@@ -199,3 +199,8 @@ void MainWindow::on_actionLaplacian_triggered()
 
     set_image(newImage);
 }
+
+void MainWindow::on_actionBrighten_triggered()
+{
+
+}

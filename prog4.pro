@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ip_algorithms.cpp
+    ip_algorithms.cpp \
+    chris_algorithms.cpp
 
 HEADERS  += mainwindow.h \
-    ip_algorithms.h
+    ip_algorithms.h \
+    chris_algorithms.h
 
 FORMS    += mainwindow.ui
 

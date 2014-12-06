@@ -47,7 +47,7 @@
          <x>0</x>
          <y>0</y>
          <width>722</width>
-         <height>462</height>
+         <height>456</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -105,11 +105,15 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionGrayscale"/>
     <addaction name="actionSmooth"/>
-    <addaction name="actionBrighten"/>
+    <addaction name="actionGrayscale"/>
     <addaction name="actionGradient"/>
+    <addaction name="actionBrighten"/>
     <addaction name="actionLaplacian"/>
+    <addaction name="actionDarken"/>
+    <addaction name="actionNoise"/>
+    <addaction name="actionBinary_Threshold"/>
+    <addaction name="actionNegate"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -207,6 +211,26 @@
   <action name="actionLaplacian">
    <property name="text">
     <string>Laplacian</string>
+   </property>
+  </action>
+  <action name="actionDarken">
+   <property name="text">
+    <string>Darken</string>
+   </property>
+  </action>
+  <action name="actionNoise">
+   <property name="text">
+    <string>Noise</string>
+   </property>
+  </action>
+  <action name="actionBinary_Threshold">
+   <property name="text">
+    <string>Binary Threshold</string>
+   </property>
+  </action>
+  <action name="actionNegate">
+   <property name="text">
+    <string>Negate</string>
    </property>
   </action>
  </widget>
