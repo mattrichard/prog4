@@ -1,0 +1,4 @@
+#ifndef CHRIS_ALGORITHMS_H
+#define CHRIS_ALGORITHMS_H
+
+#endif // CHRIS_ALGORITHMS_H
