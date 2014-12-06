@@ -114,6 +114,12 @@
     <addaction name="actionNoise"/>
     <addaction name="actionBinary_Threshold"/>
     <addaction name="actionNegate"/>
+    <addaction name="actionFFT"/>
+    <addaction name="actionSharpen"/>
+    <addaction name="actionGamma"/>
+    <addaction name="actionContrast"/>
+    <addaction name="actionEmboss"/>
+    <addaction name="actionPosterize"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -231,6 +237,36 @@
   <action name="actionNegate">
    <property name="text">
     <string>Negate</string>
+   </property>
+  </action>
+  <action name="actionFFT">
+   <property name="text">
+    <string>FFT</string>
+   </property>
+  </action>
+  <action name="actionSharpen">
+   <property name="text">
+    <string>Sharpen</string>
+   </property>
+  </action>
+  <action name="actionGamma">
+   <property name="text">
+    <string>Gamma</string>
+   </property>
+  </action>
+  <action name="actionContrast">
+   <property name="text">
+    <string>Contrast</string>
+   </property>
+  </action>
+  <action name="actionEmboss">
+   <property name="text">
+    <string>Emboss</string>
+   </property>
+  </action>
+  <action name="actionPosterize">
+   <property name="text">
+    <string>Posterize</string>
    </property>
   </action>
  </widget>
