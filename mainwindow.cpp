@@ -231,3 +231,33 @@ void MainWindow::on_actionSharpen_triggered()
 
     set_image(newImage);
 }
+
+void MainWindow::on_actionNegate_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = negate(*image, thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionBinary_Threshold_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = binary_threshold( *grayscale(*image, thread_count) , thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionNoise_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = noise( *image , thread_count);
+
+    set_image(newImage);
+}

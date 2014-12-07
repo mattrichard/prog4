@@ -37,6 +37,12 @@ private slots:
     void on_actionDarken_triggered();
     void on_actionSharpen_triggered();
 
+    void on_actionNegate_triggered();
+
+    void on_actionBinary_Threshold_triggered();
+
+    void on_actionNoise_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();
