@@ -64,3 +64,79 @@ QImage* brighten_darken(const QImage& image, const int &thread_count, const int 
 
     return newImage;
 }
+
+QImage* negate(const QImage& image, const int& thread_count)
+{
+    QImage* newImage = new QImage(image.size(), image.format());
+    QSize size = newImage->size();
+    int r;
+    int red, green, blue;
+
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(size, image, newImage) private(r, red, green, blue)
+    for(r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            QColor color = QColor(image.pixel(c, r));
+            color.getRgb(&red, &green, &blue);
+
+            red   = 255 - red;
+            green = 255 - green;
+            blue  = 255 - blue;
+
+            color.setRgb(red, green, blue);
+            newImage->setPixel(c, r, color.rgb());
+        }
+    }
+
+    return newImage;
+}
+QImage* binary_threshold(const QImage& image, const int& thread_count)
+{
+    QImage* newImage = new QImage(image.size(), image.format());
+    QSize size = newImage->size();
+    int r;
+    int red, green, blue;
+
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(size, image, newImage) private(r, red, green, blue)
+    for(r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            QColor color = QColor(image.pixel(c, r));
+            color.getRgb(&red, &green, &blue);
+
+            red   = ( red   > 127 ) ? 255 : 0;
+            blue  = ( blue  > 127 ) ? 255 : 0;
+            green = ( green > 127 ) ? 255 : 0;
+
+            color.setRgb(red, green, blue);
+            newImage->setPixel(c, r, color.rgb());
+        }
+    }
+    return newImage;
+}
+
+QImage* noise( const QImage& image, const int& thread_count)
+{
+    QImage* newImage = new QImage(image.size(), image.format());
+    QSize size = newImage->size();
+    int r;
+    int red, green, blue;
+
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(size, image, newImage) private(r, red, green, blue)
+    for(r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            QColor color = QColor(image.pixel(c, r));
+            color.getRgb(&red, &green, &blue);
+
+
+        }
+    }
+    return newImage;
+}

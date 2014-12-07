@@ -237,8 +237,20 @@ void MainWindow::on_actionNegate_triggered()
     if(image == NULL)
         return;
 
+
     QImage* newImage = negate(*image, thread_count);
 
+    set_image(newImage);
+
+}
+
+void MainWindow::on_actionEmboss_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = emboss(*image, thread_count);
+    
     set_image(newImage);
 }
 
@@ -252,12 +264,53 @@ void MainWindow::on_actionBinary_Threshold_triggered()
     set_image(newImage);
 }
 
+void MainWindow::on_actionEnhanceContrast_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = enhance_contrast(*image, thread_count);
+
+    set_image(newImage);
+}
+
 void MainWindow::on_actionNoise_triggered()
 {
     if(image == NULL)
         return;
 
+
     QImage* newImage = noise( *image , thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionReduce_Contrast_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = reduce_contrast(*image, thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionPosterize_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = posterize(*image, thread_count);
+
+    set_image(newImage);
+}
+
+void MainWindow::on_actionGamma_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = gamma(*image, thread_count);
 
     set_image(newImage);
 }
