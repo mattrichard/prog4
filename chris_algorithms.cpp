@@ -3,6 +3,7 @@
 #include <QColor>
 
 #include <cmath>
+#include <time.h>
 
 using namespace std;
 
@@ -125,15 +126,24 @@ QImage* noise( const QImage& image, const int& thread_count)
     QSize size = newImage->size();
     int r;
     int red, green, blue;
-
 #   pragma omp parallel for num_threads(thread_count) default(none) \
-        shared(size, image, newImage) private(r, red, green, blue)
+        shared(size, image, newImage, thread_count) private(r, red, green, blue)
     for(r = 0; r < size.height(); r++)
     {
         for(int c = 0; c < size.width(); c++)
         {
+            //unsigned int my_time =  time(NULL)*r*r + c*r*c/(thread_count+r+c*r + time(NULL));
+            unsigned int my_time = time(NULL) * r + c;
+            int x = rand_r(&my_time) % 100;
             QColor color = QColor(image.pixel(c, r));
             color.getRgb(&red, &green, &blue);
+            red   = (( x == 99 ) ? 255 : ((x == 23) ? 0 : red));
+            green = (( x == 99 ) ? 255 : ((x == 23) ? 0 : green));
+            blue  = (( x == 99 ) ? 255 : ((x == 23) ? 0 : blue));
+
+            color.setRgb(red, green, blue);
+
+            newImage->setPixel(c, r, color.rgb());
 
 
         }

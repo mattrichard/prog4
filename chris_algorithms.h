@@ -1,6 +1,7 @@
 #ifndef CHRIS_ALGORITHMS_H
 #define CHRIS_ALGORITHMS_H
 
+
 #include <QImage>
 
 QImage* brighten(const QImage& image, int thread_count);
