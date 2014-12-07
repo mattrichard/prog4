@@ -37,6 +37,16 @@ private slots:
     void on_actionDarken_triggered();
     void on_actionSharpen_triggered();
 
+    void on_actionEmboss_triggered();
+
+    void on_actionEnhanceContrast_triggered();
+
+    void on_actionReduce_Contrast_triggered();
+
+    void on_actionPosterize_triggered();
+
+    void on_actionGamma_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

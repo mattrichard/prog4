@@ -117,7 +117,8 @@
     <addaction name="actionFFT"/>
     <addaction name="actionSharpen"/>
     <addaction name="actionGamma"/>
-    <addaction name="actionContrast"/>
+    <addaction name="actionEnhanceContrast"/>
+    <addaction name="actionReduce_Contrast"/>
     <addaction name="actionEmboss"/>
     <addaction name="actionPosterize"/>
    </widget>
@@ -254,9 +255,9 @@
     <string>Gamma</string>
    </property>
   </action>
-  <action name="actionContrast">
+  <action name="actionEnhanceContrast">
    <property name="text">
-    <string>Contrast</string>
+    <string>EnhanceContrast</string>
    </property>
   </action>
   <action name="actionEmboss">
@@ -267,6 +268,11 @@
   <action name="actionPosterize">
    <property name="text">
     <string>Posterize</string>
+   </property>
+  </action>
+  <action name="actionReduce_Contrast">
+   <property name="text">
+    <string>Reduce Contrast</string>
    </property>
   </action>
  </widget>
