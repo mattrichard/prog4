@@ -121,6 +121,7 @@
     <addaction name="actionReduce_Contrast"/>
     <addaction name="actionEmboss"/>
     <addaction name="actionPosterize"/>
+    <addaction name="actionGaussian"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -273,6 +274,11 @@
   <action name="actionReduce_Contrast">
    <property name="text">
     <string>Reduce Contrast</string>
+   </property>
+  </action>
+  <action name="actionGaussian">
+   <property name="text">
+    <string>Gaussian</string>
    </property>
   </action>
  </widget>

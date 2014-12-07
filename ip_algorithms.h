@@ -11,4 +11,6 @@ QImage* gradient(const QImage& image, int thread_count);
 
 QImage* laplacian(const QImage& image, int thread_count);
 
+QImage* gaussian(const QImage& image, int thread_count);
+
 #endif // IP_ALGORITHMS_H

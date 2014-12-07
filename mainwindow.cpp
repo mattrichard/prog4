@@ -314,3 +314,13 @@ void MainWindow::on_actionGamma_triggered()
 
     set_image(newImage);
 }
+
+void MainWindow::on_actionGaussian_triggered()
+{
+    if(image == NULL)
+        return;
+
+    QImage* newImage = gaussian(*image, thread_count);
+
+    set_image(newImage);
+}

@@ -176,3 +176,54 @@ QImage* laplacian(const QImage& image, int thread_count)
 
     return newImage;
 }
+
+QImage* gaussian(const QImage& image, int thread_count)
+{
+    QImage* newImage = new QImage(image.size(), image.format());
+    QSize size = newImage->size();
+
+    float mask[5][5] = {{1, 4, 7, 4, 1},
+                        {4, 16, 26, 16, 4},
+                        {7, 26, 41, 26, 7},
+                        {4, 16, 26, 16, 4},
+                        {1, 4, 7, 4, 1}};
+
+    for(int i = 0; i < 5; i++)
+        for(int j = 0; j < 5; j++)
+            mask[i][j] /= 273.0;
+
+    int r;
+
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(size, image, newImage, mask) private(r)
+    for(r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            float value = 0;
+
+            // Convolve
+            for(int i = -2; i <= 2; i++)
+            {
+                for(int j = -2; j <= 2; j++)
+                {
+                    QColor color = QColor(image.pixel((c + j + size.width()) % size.width(), (r + i + size.height()) % size.height()));
+                    value += mask[i+2][j+2] * color.value();
+                }
+            }
+
+            if(value < 0)
+                value = 0;
+            else if(value > 255)
+                value = 255;
+
+            QColor color = QColor(image.pixel(c, r));
+
+            color.setHsv(color.hue(), color.saturation(), (int)value);
+
+            newImage->setPixel(c, r, color.rgb());
+        }
+    }
+
+    return newImage;
+}

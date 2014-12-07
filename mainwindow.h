@@ -54,6 +54,8 @@ private slots:
 
     void on_actionGamma_triggered();
 
+    void on_actionGaussian_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();
