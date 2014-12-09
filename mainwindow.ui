@@ -103,7 +103,7 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>Parallel</string>
     </property>
     <addaction name="actionSmooth"/>
     <addaction name="actionGrayscale"/>
@@ -123,7 +123,30 @@
     <addaction name="actionPosterize"/>
     <addaction name="actionGaussian"/>
    </widget>
+   <widget class="QMenu" name="menuSequential">
+    <property name="title">
+     <string>Sequential</string>
+    </property>
+    <addaction name="actionSmooth_Sequential"/>
+    <addaction name="actionGrayscale_Sequential"/>
+    <addaction name="actionGradient_Sequential"/>
+    <addaction name="actionBrighten_Sequential"/>
+    <addaction name="actionDarken_Sequential"/>
+    <addaction name="actionLaplacian_Sequential"/>
+    <addaction name="actionNoise_Sequential"/>
+    <addaction name="actionBinary_Threshold_Sequential"/>
+    <addaction name="actionNegate_Sequential"/>
+    <addaction name="actionFFT_Sequential"/>
+    <addaction name="actionSharpen_Sequential"/>
+    <addaction name="actionGamma_Sequential"/>
+    <addaction name="actionEnhanceContrast_Sequential"/>
+    <addaction name="actionReduce_Contrast_Sequential"/>
+    <addaction name="actionEmboss_Sequential"/>
+    <addaction name="actionPosterize_Sequential"/>
+    <addaction name="actionGaussian_Sequential"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSequential"/>
    <addaction name="menuEdit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -277,6 +300,91 @@
    </property>
   </action>
   <action name="actionGaussian">
+   <property name="text">
+    <string>Gaussian</string>
+   </property>
+  </action>
+  <action name="actionSmooth_Sequential">
+   <property name="text">
+    <string>Smooth</string>
+   </property>
+  </action>
+  <action name="actionGrayscale_Sequential">
+   <property name="text">
+    <string>Grayscale</string>
+   </property>
+  </action>
+  <action name="actionGradient_Sequential">
+   <property name="text">
+    <string>Gradient</string>
+   </property>
+  </action>
+  <action name="actionBrighten_Sequential">
+   <property name="text">
+    <string>Brighten</string>
+   </property>
+  </action>
+  <action name="actionDarken_Sequential">
+   <property name="text">
+    <string>Darken</string>
+   </property>
+  </action>
+  <action name="actionLaplacian_Sequential">
+   <property name="text">
+    <string>Laplacian</string>
+   </property>
+  </action>
+  <action name="actionNoise_Sequential">
+   <property name="text">
+    <string>Noise</string>
+   </property>
+  </action>
+  <action name="actionBinary_Threshold_Sequential">
+   <property name="text">
+    <string>Binary Threshold</string>
+   </property>
+  </action>
+  <action name="actionNegate_Sequential">
+   <property name="text">
+    <string>Negate</string>
+   </property>
+  </action>
+  <action name="actionFFT_Sequential">
+   <property name="text">
+    <string>FFT</string>
+   </property>
+  </action>
+  <action name="actionSharpen_Sequential">
+   <property name="text">
+    <string>Sharpen</string>
+   </property>
+  </action>
+  <action name="actionGamma_Sequential">
+   <property name="text">
+    <string>Gamma</string>
+   </property>
+  </action>
+  <action name="actionEnhanceContrast_Sequential">
+   <property name="text">
+    <string>EnhanceContrast</string>
+   </property>
+  </action>
+  <action name="actionReduce_Contrast_Sequential">
+   <property name="text">
+    <string>Reduce Contrast</string>
+   </property>
+  </action>
+  <action name="actionEmboss_Sequential">
+   <property name="text">
+    <string>Emboss</string>
+   </property>
+  </action>
+  <action name="actionPosterize_Sequential">
+   <property name="text">
+    <string>Posterize</string>
+   </property>
+  </action>
+  <action name="actionGaussian_Sequential">
    <property name="text">
     <string>Gaussian</string>
    </property>

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <omp.h>
+
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -73,9 +75,11 @@ void MainWindow::on_actionGrayscale_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = grayscale(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionSmooth_triggered()
@@ -83,9 +87,11 @@ void MainWindow::on_actionSmooth_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage *newImage = smooth(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionUndo_triggered()
@@ -129,7 +135,7 @@ void MainWindow::save_image(QString fileName)
     image->save(fileName.isEmpty() ? imageFileName : fileName);
 }
 
-void MainWindow::set_image(QImage *newImage)
+void MainWindow::set_image(QImage *newImage, double time)
 {
     if(image != NULL)
     {
@@ -149,6 +155,8 @@ void MainWindow::set_image(QImage *newImage)
         }
 
         update_undo_redo_actions();
+
+        ui->statusBar->showMessage(QString("Total time: %1 seconds").arg(time));
     }
 }
 
@@ -187,9 +195,11 @@ void MainWindow::on_actionGradient_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = gradient(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionLaplacian_triggered()
@@ -197,9 +207,11 @@ void MainWindow::on_actionLaplacian_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = laplacian(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionBrighten_triggered()
@@ -207,9 +219,11 @@ void MainWindow::on_actionBrighten_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = brighten(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionDarken_triggered()
@@ -217,9 +231,11 @@ void MainWindow::on_actionDarken_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = darken(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionSharpen_triggered()
@@ -227,9 +243,11 @@ void MainWindow::on_actionSharpen_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = sharpen(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionNegate_triggered()
@@ -237,11 +255,11 @@ void MainWindow::on_actionNegate_triggered()
     if(image == NULL)
         return;
 
-
+    double start = omp_get_wtime();
     QImage* newImage = negate(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
-
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionEmboss_triggered()
@@ -249,9 +267,11 @@ void MainWindow::on_actionEmboss_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = emboss(*image, thread_count);
-    
-    set_image(newImage);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionBinary_Threshold_triggered()
@@ -259,9 +279,11 @@ void MainWindow::on_actionBinary_Threshold_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = binary_threshold( *grayscale(*image, thread_count) , thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionEnhanceContrast_triggered()
@@ -269,9 +291,11 @@ void MainWindow::on_actionEnhanceContrast_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = enhance_contrast(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionNoise_triggered()
@@ -279,10 +303,11 @@ void MainWindow::on_actionNoise_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
+    QImage* newImage = noise(*image , thread_count);
+    double end = omp_get_wtime();
 
-    QImage* newImage = noise( *image , thread_count);
-
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionReduce_Contrast_triggered()
@@ -290,9 +315,11 @@ void MainWindow::on_actionReduce_Contrast_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = reduce_contrast(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionPosterize_triggered()
@@ -300,9 +327,11 @@ void MainWindow::on_actionPosterize_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = posterize(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionGamma_triggered()
@@ -310,9 +339,11 @@ void MainWindow::on_actionGamma_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = gamma(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
 }
 
 void MainWindow::on_actionGaussian_triggered()
@@ -320,7 +351,201 @@ void MainWindow::on_actionGaussian_triggered()
     if(image == NULL)
         return;
 
+    double start = omp_get_wtime();
     QImage* newImage = gaussian(*image, thread_count);
+    double end = omp_get_wtime();
 
-    set_image(newImage);
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionSmooth_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage *newImage = smooth(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionGrayscale_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = grayscale(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionGradient_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = gradient(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionBrighten_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = brighten(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionDarken_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = darken(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionLaplacian_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = laplacian(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionNoise_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = noise(*image , 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionBinary_Threshold_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = binary_threshold( *grayscale(*image, 1) , 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionNegate_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = negate(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionSharpen_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = sharpen(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionGamma_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = gamma(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionEnhanceContrast_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = enhance_contrast(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionReduce_Contrast_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = reduce_contrast(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionEmboss_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = emboss(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionPosterize_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = posterize(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionGaussian_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = gaussian(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
 }
