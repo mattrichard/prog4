@@ -58,6 +58,8 @@ private slots:
     void on_actionPosterize_Sequential_triggered();
     void on_actionGaussian_Sequential_triggered();
 
+    void on_actionSet_Thread_Count_triggered();
+
 private:
     void clear_undo_stack();
     void clear_redo_stack();

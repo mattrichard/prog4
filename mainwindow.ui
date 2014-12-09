@@ -145,7 +145,14 @@
     <addaction name="actionPosterize_Sequential"/>
     <addaction name="actionGaussian_Sequential"/>
    </widget>
+   <widget class="QMenu" name="menuEdit_2">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionSet_Thread_Count"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit_2"/>
    <addaction name="menuSequential"/>
    <addaction name="menuEdit"/>
   </widget>
@@ -387,6 +394,11 @@
   <action name="actionGaussian_Sequential">
    <property name="text">
     <string>Gaussian</string>
+   </property>
+  </action>
+  <action name="actionSet_Thread_Count">
+   <property name="text">
+    <string>Set Thread Count</string>
    </property>
   </action>
  </widget>

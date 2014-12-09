@@ -5,6 +5,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QInputDialog>
 
 #include "ip_algorithms.h"
 #include "chris_algorithms.h"
@@ -548,4 +549,9 @@ void MainWindow::on_actionGaussian_Sequential_triggered()
     double end = omp_get_wtime();
 
     set_image(newImage, end - start);
+}
+
+void MainWindow::on_actionSet_Thread_Count_triggered()
+{
+    thread_count = QInputDialog::getInt(this, "Set Thread Count", "Thread Count", thread_count, 2, 16);
 }
