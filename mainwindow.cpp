@@ -263,6 +263,19 @@ void MainWindow::on_actionNegate_triggered()
     set_image(newImage, end - start);
 }
 
+
+void MainWindow::on_actionFFT_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = fft(*image, thread_count);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
+}
+
 void MainWindow::on_actionEmboss_triggered()
 {
     if(image == NULL)
@@ -554,4 +567,16 @@ void MainWindow::on_actionGaussian_Sequential_triggered()
 void MainWindow::on_actionSet_Thread_Count_triggered()
 {
     thread_count = QInputDialog::getInt(this, "Set Thread Count", "Thread Count", thread_count, 2, 16);
+}
+
+void MainWindow::on_actionFFT_Sequential_triggered()
+{
+    if(image == NULL)
+        return;
+
+    double start = omp_get_wtime();
+    QImage* newImage = fft(*image, 1);
+    double end = omp_get_wtime();
+
+    set_image(newImage, end - start);
 }

@@ -1,4 +1,5 @@
 #include "ian_algorithms.h"
+#include "ip_algorithms.h"
 #include <QColor>
 #include <cmath>
 
@@ -231,3 +232,128 @@ QImage* gamma(const QImage& image, int thread_count)
 
     return newImage;
 }
+
+QImage* fft(const QImage& image, int thread_count)
+{
+    //start off by grayscaling the image
+    QImage* newImage = grayscale(image,thread_count);
+    QSize size = newImage->size();
+
+    double * real = new double[size.height()*size.width()];
+    double * complex = new double[size.height()*size.width()];
+    double * real2 = new double[size.height()*size.width()];
+    double * complex2 = new double[size.height()*size.width()];
+    double * magnitude = new double[size.height()*size.width()];
+
+    //initialize the arrays to all 0s
+    for(int i = 0; i < size.width()*size.height(); i++)
+    {
+        real[i] = 0;
+        real2[i] = 0;
+        complex[i] = 0;
+        complex2[i] = 0;
+        magnitude[i] = 0;
+    }
+
+    //First do a 1D fft on each row - this parallelizes nicely
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(real,complex,image,size)
+    for(int r = 0; r < size.height(); r++)
+    {
+        //for each element in the row
+        for(int c = 0; c < size.width(); c++)
+        {
+            //loop through the whole row and do the formula
+            for(int i = 0; i < size.width(); i++)
+            {
+                QColor color = QColor(image.pixel(i,r));
+                real[r*size.width()+c] +=  color.value()*cos(-2*M_PI*c*i/size.width());
+                complex[r*size.width()+c] += color.value()*sin(-2*M_PI*c*i/size.width());
+            }
+        }
+    }
+
+    //now go through each column and do an fft on the column
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(real2,complex2,real,complex,size)
+    for(int c = 0; c < size.width(); c++)
+    {
+        //for each element of the column
+        for(int r = 0; r < size.height(); r++)
+        {
+            //loop through the whole column and do the formula
+            for(int i = 0; i < size.height(); i++)
+            {
+                real2[r*size.width()+c] +=  real[i*size.width()+c]*cos(-2*M_PI*r*i/size.height());
+                complex2[r*size.width()+c] += complex[i*size.width()+c]*sin(-2*M_PI*r*i/size.height());
+            }
+        }
+    }
+
+    double max=-1,min=-1;
+    //get the magnitude, and take the log to scale things nicely
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(magnitude,complex2,real2,size) reduction(max:max) reduction(min:min)
+    for(int r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            magnitude[r*size.width()+c] = log(sqrt(real2[r*size.width()+c]*real2[r*size.width()+c] + complex2[r*size.width()+c]*complex2[r*size.width()+c]));
+            if(max == -1)
+                max = magnitude[r*size.width()+c];
+            if(min == -1)
+                min = magnitude[r*size.width()+c];
+            if(magnitude[r*size.width()+c] > max)
+                max = magnitude[r*size.width()+c];
+            if(magnitude[r*size.width()+c] < min)
+                min = magnitude[r*size.width()+c];
+        }
+    }
+
+    //the log gives us really small numbers, normalize before setting the pixels in the image
+
+
+    //go through and set each pixel in the new image
+#   pragma omp parallel for num_threads(thread_count) default(none) \
+        shared(min,max,newImage,magnitude,size)
+    for(int r = 0; r < size.height(); r++)
+    {
+        for(int c = 0; c < size.width(); c++)
+        {
+            double norm_mag = (magnitude[r*size.width()+c]-min)/(max-min)*255;
+            QColor color;
+            color.setRgb(norm_mag,norm_mag,norm_mag);
+            newImage->setPixel((c+size.width()/2)%size.width(),(r+size.height()/2)%size.height(),color.rgb());
+        }
+    }
+
+    free(real);
+    free(real2);
+    free(complex);
+    free(complex2);
+    return newImage;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
