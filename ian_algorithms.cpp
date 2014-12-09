@@ -327,12 +327,13 @@ QImage* fft(const QImage& image, int thread_count)
         }
     }
 
-    free(real);
-    free(real2);
-    free(complex);
-    free(complex2);
-    return newImage;
+    delete[] real;
+    delete[] real2;
+    delete[] complex;
+    delete[] complex2;
+    delete[] magnitude;
 
+    return newImage;
 }
 
 
