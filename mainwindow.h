@@ -57,13 +57,8 @@ private slots:
     void on_actionEmboss_Sequential_triggered();
     void on_actionPosterize_Sequential_triggered();
     void on_actionGaussian_Sequential_triggered();
-
     void on_actionSet_Thread_Count_triggered();
-
-    void on_actionFFT_2_triggered();
-
     void on_actionFFT_triggered();
-
     void on_actionFFT_Sequential_triggered();
 
 private:
