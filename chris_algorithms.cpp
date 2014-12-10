@@ -7,19 +7,47 @@
 
 using namespace std;
 
-
+/******************************************************************************
+ * Function: brighten
+ * Description: Sets the value to be added to each pixel to 20 in for the universal
+ * brighten_darken function
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: the brightened image after its computed
+ *****************************************************************************/
 QImage* brighten(const QImage &image, int thread_count)
 {
     int bright = 20;
     return brighten_darken(image, thread_count, bright, 255);
 }
 
+/******************************************************************************
+ * Function: darken
+ * Description: Sets the value to be added to each pixel to -20 in for the universal
+ * brighten_darken function
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: the darkened image after its computed
+ *****************************************************************************/
 QImage* darken(const QImage &image, int thread_count)
 {
     int dark = -20;
     return brighten_darken(image, thread_count, dark, 0);
 }
 
+/******************************************************************************
+ * Function: brighten
+ * Description: Adds teh value passed in to each pixel value in parrallel
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ *   value - the integer value to be added to each pixel value
+ *   limit - 0 if the image is getting darkened so no value is less than 0 or
+ *           255 if the image is getting brightened so no value is greater than 255
+ * Returns: the brightened or darkened image after its computed
+ *****************************************************************************/
 QImage* brighten_darken(const QImage& image, const int &thread_count, const int &value, const int &limit)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -66,6 +94,15 @@ QImage* brighten_darken(const QImage& image, const int &thread_count, const int 
     return newImage;
 }
 
+/******************************************************************************
+ * Function: negate
+ * Description: Negates each pixel value ( 255 - pixel_value) in parrallel
+ * for the image.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The negated image
+ *****************************************************************************/
 QImage* negate(const QImage& image, const int& thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -93,6 +130,16 @@ QImage* negate(const QImage& image, const int& thread_count)
 
     return newImage;
 }
+
+/******************************************************************************
+ * Function: binary_threshold
+ * Description: takes a grayscale image and calculates a simple binary threshold
+ * in parallel
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: the darkened image after its computed
+ *****************************************************************************/
 QImage* binary_threshold(const QImage& image, const int& thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -120,6 +167,14 @@ QImage* binary_threshold(const QImage& image, const int& thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: noise
+ * Description: Adds salt and pepper noise randomly through the image in parallel
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: the darkened image after its computed
+ *****************************************************************************/
 QImage* noise( const QImage& image, const int& thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -132,6 +187,7 @@ QImage* noise( const QImage& image, const int& thread_count)
     {
         for(int c = 0; c < size.width(); c++)
         {
+            //Commented out since this line adds random white and black horizontal lines across image
             //unsigned int my_time =  time(NULL)*r*r + c*r*c/(thread_count+r+c*r + time(NULL));
             unsigned int my_time = time(NULL) * r + c;
             int x = rand_r(&my_time) % 100;

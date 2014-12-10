@@ -6,6 +6,14 @@
 
 using namespace std;
 
+/******************************************************************************
+ * Function: grayscale
+ * Description: Converts an image to grayscale in parallel.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The grayscale image.
+ *****************************************************************************/
 QImage* grayscale(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -34,6 +42,14 @@ QImage* grayscale(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: smooth
+ * Description: Smooths an image in parallel.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The smoothed image.
+ *****************************************************************************/
 QImage* smooth(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -75,6 +91,14 @@ QImage* smooth(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: gradient
+ * Description: Computes the gradient of an image in parallel.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The gradient image of the given image.
+ *****************************************************************************/
 QImage* gradient(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -133,6 +157,14 @@ QImage* gradient(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: laplacian
+ * Description: Computes the laplacian of an image in parallel.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The laplacian image of the given image.
+ *****************************************************************************/
 QImage* laplacian(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -177,6 +209,14 @@ QImage* laplacian(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: gaussian
+ * Description: Performs Gaussian smoothing on an image in parallel.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The smoothed image.
+ *****************************************************************************/
 QImage* gaussian(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());

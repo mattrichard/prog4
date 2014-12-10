@@ -133,7 +133,10 @@ void MainWindow::clear_stacks()
 
 void MainWindow::save_image(QString fileName)
 {
-    image->save(fileName.isEmpty() ? imageFileName : fileName);
+    if(image != NULL)
+    {
+        image->save(fileName.isEmpty() ? imageFileName : fileName);
+    }
 }
 
 void MainWindow::set_image(QImage *newImage, double time)
