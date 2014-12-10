@@ -3,6 +3,14 @@
 #include <QColor>
 #include <cmath>
 
+/******************************************************************************
+ * Function: sharpen
+ * Description: Convolves an image with a sharpen mask to sharpen the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The sharpened image.
+ *****************************************************************************/
 QImage* sharpen(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -15,6 +23,7 @@ QImage* sharpen(const QImage& image, int thread_count)
     //0  -1  0
     //-1  1 -1
     //0  -1  0
+    //generate the mask
     for(row = 0; row < 3; row++)
         for(int col = 0; col < 3; col++)
             mask[row][col] = -1;
@@ -23,6 +32,7 @@ QImage* sharpen(const QImage& image, int thread_count)
         for(col = 0; col < 3; col+=2)
             mask[row][col] = 0;
 
+    //Apply the mask to each pixel, excluding the boundary
 #   pragma omp parallel for num_threads(thread_count) default(none) \
         shared(size, image, newImage, mask) private(row,col)
     for(row = 1; row < size.height()-1; row++)
@@ -47,6 +57,8 @@ QImage* sharpen(const QImage& image, int thread_count)
                     g+=color.green()*mask[i+1][j+1];
                 }
             }
+
+            //range checking
             if(r > 255)r = 255;
             if(r < 0)r = 0;
             if(g < 0) g = 0;
@@ -54,6 +66,7 @@ QImage* sharpen(const QImage& image, int thread_count)
             if(b < 0) b = 0;
             if(b > 255) b = 255;
 
+            //put the new pixel back in the image
             QColor color = QColor(image.pixel(col, row));
             color.setRed((int)r);
             color.setGreen((int)g);
@@ -67,6 +80,14 @@ QImage* sharpen(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: enhance contrast
+ * Description: Increase the contrast in the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The new image
+ *****************************************************************************/
 QImage* enhance_contrast(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -80,20 +101,24 @@ QImage* enhance_contrast(const QImage& image, int thread_count)
     {
         for(col = 0; col < size.width(); col++)
         {
+            //scale the current rgb values
             QColor color = QColor(image.pixel(col, row));
             float r = (color.red()-64.0)*(255.0/(128.0));
             float g = (color.green()-64.0)*(255.0/(128.0));
             float b = (color.blue()-64.0)*(255.0/(128.0));
+
+            //range checking
             if(r > 255)r=255;
             if(r < 0) r = 0;
             if(g > 255)g=255;
             if(g < 0) g = 0;
             if(b > 255)b=255;
             if(b < 0) b = 0;
+
+            //set the new color values
             color.setRed((int)r);
             color.setGreen((int)g);
             color.setBlue((int)b);
-
             newImage->setPixel(col, row, color.rgb());
         }
     }
@@ -101,6 +126,14 @@ QImage* enhance_contrast(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: reduce contrast
+ * Description: reduce the contrast in the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The new image
+ *****************************************************************************/
 QImage* reduce_contrast(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -114,21 +147,24 @@ QImage* reduce_contrast(const QImage& image, int thread_count)
     {
         for(col = 0; col < size.width(); col++)
         {
+            //scale the rgb values
             QColor color = QColor(image.pixel(col, row));
             float r = (color.red())*(128/(255.0)) + 64;
             float g = (color.green())*(128/(255.0)) + 64;
             float b = (color.blue())*(128/(255.0)) + 64;
+
+            //range checking
             if(r > 255)r=255;
             if(r < 0) r = 0;
             if(g > 255)g=255;
             if(g < 0) g = 0;
             if(b > 255)b=255;
             if(b < 0) b = 0;
+
+            //put the new rgb values back in the image
             color.setRed((int)r);
             color.setGreen((int)g);
             color.setBlue((int)b);
-
-
             newImage->setPixel(col, row, color.rgb());
         }
     }
@@ -136,6 +172,15 @@ QImage* reduce_contrast(const QImage& image, int thread_count)
     return newImage;
 }
 
+
+/******************************************************************************
+ * Function: apply emboss effecct
+ * Description: Increase the contrast in the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The embossed image
+ *****************************************************************************/
 QImage* emboss(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -146,7 +191,7 @@ QImage* emboss(const QImage& image, int thread_count)
     //Mask
     //1   0
     //0  -1
-    //actually easier to just hardcode this one
+    //actually more efficient to just hardcode this one
 
 #   pragma omp parallel for num_threads(thread_count) default(none) \
         shared(size, image, newImage) private(row,col)
@@ -156,12 +201,16 @@ QImage* emboss(const QImage& image, int thread_count)
         {
             QColor color1 = QColor(image.pixel(col, row));
             QColor color2 = QColor(image.pixel(col+1, row+1));
+
+            //apply the "mask"
             float val = qGray(color1.red(),color1.green(),color1.blue()) - qGray(color2.red(),color2.green(),color2.blue()) + 128;
+
+            //range checking
             if( val > 255) val=255;
             if(val < 0) val = 0;
+
+            //put the new rgb values back in the image
             color1.setRgb((int)val,(int)val,(int)val);
-
-
             newImage->setPixel(col, row, color1.rgb());
         }
     }
@@ -169,11 +218,21 @@ QImage* emboss(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: posterize
+ * Description: Reduce the number of allowed colors for
+ *  each channel in the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The new image
+ *****************************************************************************/
 QImage* posterize(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
     QSize size = newImage->size();
 
+    //some up front math
     const int levels = 4;
     int interval = 256/levels;
     int quanta = 255/(levels-1);
@@ -185,6 +244,7 @@ QImage* posterize(const QImage& image, int thread_count)
     {
         for(col = 0; col < size.width(); col++)
         {
+            //compress each color channel
             QColor color = QColor(image.pixel(col, row));
             int r = (color.red()/interval)*quanta;
             int g = (color.green()/interval)*quanta;
@@ -193,8 +253,6 @@ QImage* posterize(const QImage& image, int thread_count)
             color.setRed(r);
             color.setGreen(g);
             color.setBlue(b);
-
-
             newImage->setPixel(col, row, color.rgb());
         }
     }
@@ -202,6 +260,14 @@ QImage* posterize(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function:  gamma
+ * Description: Adjust the gamma on the image
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The new image
+ *****************************************************************************/
 QImage* gamma(const QImage& image, int thread_count)
 {
     QImage* newImage = new QImage(image.size(), image.format());
@@ -216,6 +282,7 @@ QImage* gamma(const QImage& image, int thread_count)
     {
         for(col = 0; col < size.width(); col++)
         {
+            //apply the new gamma
             QColor color = QColor(image.pixel(col, row));
             int r = pow(color.red()/255.0,gamma)*255+0.5;
             int g = pow(color.green()/255.0,gamma)*255+0.5;
@@ -224,8 +291,6 @@ QImage* gamma(const QImage& image, int thread_count)
             color.setRed(r);
             color.setGreen(g);
             color.setBlue(b);
-
-
             newImage->setPixel(col, row, color.rgb());
         }
     }
@@ -233,16 +298,29 @@ QImage* gamma(const QImage& image, int thread_count)
     return newImage;
 }
 
+/******************************************************************************
+ * Function: fft
+ * Description: perform a 2D fft on the image by doing 1D fft's in the rows
+ *  and then in the columns.
+ * Parameters:
+ *   image - the image to process on
+ *   thread_count - the number of threads to use
+ * Returns: The new image
+ *****************************************************************************/
 QImage* fft(const QImage& image, int thread_count)
 {
     //start off by grayscaling the image
     QImage* newImage = grayscale(image,thread_count);
     QSize size = newImage->size();
 
+    //We need a place to save the values from the first and 2nd ffts so they
+    //can be shared between processes safely
     double * real = new double[size.height()*size.width()];
     double * complex = new double[size.height()*size.width()];
     double * real2 = new double[size.height()*size.width()];
     double * complex2 = new double[size.height()*size.width()];
+
+    //save all the magnitudes to assist with scaling at the end
     double * magnitude = new double[size.height()*size.width()];
 
     //initialize the arrays to all 0s
@@ -327,6 +405,7 @@ QImage* fft(const QImage& image, int thread_count)
         }
     }
 
+    //no memory leaks!
     delete[] real;
     delete[] real2;
     delete[] complex;
