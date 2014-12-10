@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
-#include "ip_algorithms.h"
+#include "matt_algorithms.h"
 #include "chris_algorithms.h"
 #include "ian_algorithms.h"
 
