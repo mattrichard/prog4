@@ -60,7 +60,6 @@ private slots:
 
     void on_actionSet_Thread_Count_triggered();
 
-    void on_actionFFT_2_triggered();
 
     void on_actionFFT_triggered();
 
